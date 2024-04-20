@@ -381,7 +381,7 @@ class FlutterPlugin implements Plugin<Project> {
         if (project.ext.has("pluginBuildDir")) {
             return project.ext.get("pluginBuildDir")
         }
-        return project.getLayout().getBuildDirectory()
+        return project.layout.buildDirectory.get().asFile
     }
 
     /**
@@ -1077,7 +1077,7 @@ class FlutterPlugin implements Plugin<Project> {
                 trackWidgetCreation(trackWidgetCreationValue)
                 targetPlatformValues = targetPlatforms
                 sourceDir(getFlutterSourceDirectory())
-                intermediateDir(project.file("${project.getLayout().getBuildDirectory()}/$INTERMEDIATES_DIR/flutter/${variant.name}/"))
+                intermediateDir(project.file("${project.layout.buildDirectory.get().asFile}/$INTERMEDIATES_DIR/flutter/${variant.name}/"))
                 frontendServerStarterPath(frontendServerStarterPathValue)
                 extraFrontEndOptions(extraFrontEndOptionsValue)
                 extraGenSnapshotOptions(extraGenSnapshotOptionsValue)
