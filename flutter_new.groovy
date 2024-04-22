@@ -38,7 +38,7 @@ import org.gradle.internal.os.OperatingSystem
  *
  * Learn more about extensions in Gradle:
  *  * https://docs.gradle.org/8.0.2/userguide/custom_plugins.html#sec:getting_input_from_the_build
- */
+*/
 class FlutterExtension {
 
     /** Sets the compileSdkVersion used by default in Flutter app projects. */
@@ -155,10 +155,10 @@ class FlutterPlugin implements Plugin<Project> {
 
     /** Maps platforms to ABI architectures. */
     private static final Map PLATFORM_ARCH_MAP = [
-            (PLATFORM_ARM32)    : ARCH_ARM32,
-            (PLATFORM_ARM64)    : ARCH_ARM64,
-            (PLATFORM_X86)      : ARCH_X86,
-            (PLATFORM_X86_64)   : ARCH_X86_64,
+        (PLATFORM_ARM32)    : ARCH_ARM32,
+        (PLATFORM_ARM64)    : ARCH_ARM64,
+        (PLATFORM_X86)      : ARCH_X86,
+        (PLATFORM_X86_64)   : ARCH_X86_64,
     ]
 
     /**
@@ -167,17 +167,17 @@ class FlutterPlugin implements Plugin<Project> {
      * Otherwise, the Play Store will complain that the APK variants have the same version.
      */
     private static final Map<String, Integer> ABI_VERSION = [
-            (ARCH_ARM32)        : 1,
-            (ARCH_ARM64)        : 2,
-            (ARCH_X86)          : 3,
-            (ARCH_X86_64)       : 4,
+        (ARCH_ARM32)        : 1,
+        (ARCH_ARM64)        : 2,
+        (ARCH_X86)          : 3,
+        (ARCH_X86_64)       : 4,
     ]
 
     /** When split is enabled, multiple APKs are generated per each ABI. */
     private static final List DEFAULT_PLATFORMS = [
-            PLATFORM_ARM32,
-            PLATFORM_ARM64,
-            PLATFORM_X86_64,
+        PLATFORM_ARM32,
+        PLATFORM_ARM64,
+        PLATFORM_X86_64,
     ]
 
     private final static String propLocalEngineRepo = "local-engine-repo"
@@ -218,7 +218,7 @@ class FlutterPlugin implements Plugin<Project> {
             rootProject.tasks.register("generateLockfiles") {
                 rootProject.subprojects.each { subproject ->
                     String gradlew = (OperatingSystem.current().isWindows()) ?
-                            "${rootProject.projectDir}/gradlew.bat" : "${rootProject.projectDir}/gradlew"
+                        "${rootProject.projectDir}/gradlew.bat" : "${rootProject.projectDir}/gradlew"
                     rootProject.exec {
                         workingDir(rootProject.projectDir)
                         executable(gradlew)
@@ -238,8 +238,8 @@ class FlutterPlugin implements Plugin<Project> {
         }
 
         engineVersion = useLocalEngine()
-                ? "+" // Match any version since there's only one.
-                : "1.0.0-" + Paths.get(flutterRoot.absolutePath, "bin", "internal", "engine.version").toFile().text.trim()
+            ? "+" // Match any version since there's only one.
+            : "1.0.0-" + Paths.get(flutterRoot.absolutePath, "bin", "internal", "engine.version").toFile().text.trim()
 
         engineRealm = Paths.get(flutterRoot.absolutePath, "bin", "internal", "engine.realm").toFile().text.trim()
         if (engineRealm) {
@@ -249,8 +249,8 @@ class FlutterPlugin implements Plugin<Project> {
         // Configure the Maven repository.
         String hostedRepository = System.env.FLUTTER_STORAGE_BASE_URL ?: DEFAULT_MAVEN_HOST
         String repository = useLocalEngine()
-                ? project.property(propLocalEngineRepo)
-                : "$hostedRepository/${engineRealm}download.flutter.io"
+            ? project.property(propLocalEngineRepo)
+            : "$hostedRepository/${engineRealm}download.flutter.io"
         rootProject.allprojects {
             repositories {
                 maven {
@@ -448,7 +448,7 @@ class FlutterPlugin implements Plugin<Project> {
         // Warning: the name of this task is used by other code. Change with caution.
         project.tasks.register("javaVersion") {
             description "Print the current java version used by gradle. "
-            "see: https://docs.gradle.org/current/javadoc/org/gradle/api/JavaVersion.html"
+                "see: https://docs.gradle.org/current/javadoc/org/gradle/api/JavaVersion.html"
             doLast {
                 println(JavaVersion.current())
             }
@@ -531,20 +531,20 @@ class FlutterPlugin implements Plugin<Project> {
 
                                 if (appLinkIntent.attributes().find { it.key == 'android:autoVerify' }?.value == 'true') {
                                     intentFilterCheck.hasAutoVerify = true
-                                }
+                            }
                                 appLinkIntent.'action'.each { action ->
                                     if (action.attributes().find { it.key == 'android:name' }?.value == 'android.intent.action.VIEW') {
                                         intentFilterCheck.hasActionView = true
-                                    }
                                 }
+                        }
                                 appLinkIntent.'category'.each { category ->
                                     if (category.attributes().find { it.key == 'android:name' }?.value == 'android.intent.category.DEFAULT') {
                                         intentFilterCheck.hasDefaultCategory = true
-                                    }
+                                }
                                     if (category.attributes().find { it.key == 'android:name' }?.value == 'android.intent.category.BROWSABLE') {
                                         intentFilterCheck.hasBrowsableCategory = true
-                                    }
-                                }
+                    }
+                }
                                 appLinkIntent.data.each { data ->
                                     data.attributes().each { entry ->
                                         if (entry.key instanceof QName) {
@@ -555,7 +555,7 @@ class FlutterPlugin implements Plugin<Project> {
                                                 case "host":
                                                     hosts.add(entry.value)
                                                     break
-                                                case "pathAdvancedPattern"||"path"||"pathPattern":
+                                                case "pathPattern"||"path"||"pathAdvancedPattern":
                                                     paths.add(entry.value)
                                                     break
                                                 case "pathPrefix":
@@ -695,9 +695,9 @@ class FlutterPlugin implements Plugin<Project> {
                 // Plugin has a functioning `android` folder and is included successfully, although it's not supported.
                 // It must be configured nonetheless, to not throw an "Unresolved reference" exception.
                 configurePluginProject(it)
-                /* groovylint-disable-next-line EmptyElseBlock */
+            /* groovylint-disable-next-line EmptyElseBlock */
             } else {
-                // Plugin has no or an empty `android` folder. No action required.
+            // Plugin has no or an empty `android` folder. No action required.
             }
         }
     }
@@ -712,8 +712,8 @@ class FlutterPlugin implements Plugin<Project> {
         File buildGradleKts = new File(path, 'android' + File.separator + 'build.gradle.kts')
         if (buildGradle.exists() && buildGradleKts.exists()) {
             project.logger.error(
-                    "Both build.gradle and build.gradle.kts exist, so " +
-                            "build.gradle.kts is ignored. This is likely a mistake."
+                "Both build.gradle and build.gradle.kts exist, so " +
+                "build.gradle.kts is ignored. This is likely a mistake."
             )
         }
 
@@ -730,8 +730,8 @@ class FlutterPlugin implements Plugin<Project> {
         File settingsGradleKts = new File(project.projectDir.parentFile, "settings.gradle.kts")
         if (settingsGradle.exists() && settingsGradleKts.exists()) {
             project.logger.error(
-                    "Both settings.gradle and settings.gradle.kts exist, so " +
-                            "settings.gradle.kts is ignored. This is likely a mistake."
+                "Both settings.gradle and settings.gradle.kts exist, so " +
+                "settings.gradle.kts is ignored. This is likely a mistake."
             )
         }
 
@@ -771,9 +771,9 @@ class FlutterPlugin implements Plugin<Project> {
             // See https://issuetracker.google.com/139821726, and
             // https://github.com/flutter/flutter/issues/72185 for more details.
             addApiDependencies(
-                    pluginProject,
-                    buildType.name,
-                    "io.flutter:flutter_embedding_$flutterBuildMode:$engineVersion"
+              pluginProject,
+              buildType.name,
+              "io.flutter:flutter_embedding_$flutterBuildMode:$engineVersion"
             )
         }
 
@@ -1181,7 +1181,7 @@ class FlutterPlugin implements Plugin<Project> {
                     int abiVersionCode = ABI_VERSION.get(output.getFilter(OutputFile.ABI))
                     if (abiVersionCode != null) {
                         output.versionCodeOverride =
-                                abiVersionCode * 1000 + variant.versionCode
+                            abiVersionCode * 1000 + variant.versionCode
                     }
                 }
             }
@@ -1263,8 +1263,8 @@ class FlutterPlugin implements Plugin<Project> {
                 packJniLibsTask
             })
             Task copyFlutterAssetsTask = project.tasks.create(
-                    name: "copyFlutterAssets${variant.name.capitalize()}",
-                    type: Copy,
+                name: "copyFlutterAssets${variant.name.capitalize()}",
+                type: Copy,
             ) {
                 dependsOn(compileTask)
                 with(compileTask.assets)
@@ -1292,7 +1292,7 @@ class FlutterPlugin implements Plugin<Project> {
                 }
                 // `variant.mergeAssets` will be removed at the end of 2019.
                 def mergeAssets = variant.hasProperty("mergeAssetsProvider") ?
-                        variant.mergeAssetsProvider.get() : variant.mergeAssets
+                    variant.mergeAssetsProvider.get() : variant.mergeAssets
                 dependsOn(mergeAssets)
                 dependsOn("clean${mergeAssets.name.capitalize()}")
                 mergeAssets.mustRunAfter("clean${mergeAssets.name.capitalize()}")
@@ -1301,18 +1301,18 @@ class FlutterPlugin implements Plugin<Project> {
             if (!isUsedAsSubproject) {
                 def variantOutput = variant.outputs.first()
                 def processResources = variantOutput.hasProperty(propProcessResourcesProvider) ?
-                        variantOutput.processResourcesProvider.get() : variantOutput.processResources
+                    variantOutput.processResourcesProvider.get() : variantOutput.processResources
                 processResources.dependsOn(copyFlutterAssetsTask)
             }
             // The following tasks use the output of copyFlutterAssetsTask,
             // so it's necessary to declare it as an dependency since Gradle 8.
             // See https://docs.gradle.org/8.1/userguide/validation_problems.html#implicit_dependency.
-            def compressAssetsTask = project.tasks.named("compress${variant.name.capitalize()}Assets")
+            def compressAssetsTask = project.tasks.findByName("compress${variant.name.capitalize()}Assets")
             if (compressAssetsTask) {
                 compressAssetsTask.dependsOn(copyFlutterAssetsTask)
             }
 
-            def bundleAarTask = project.tasks.named("bundle${variant.name.capitalize()}Aar")
+            def bundleAarTask = project.tasks.findByName("bundle${variant.name.capitalize()}Aar")
             if (bundleAarTask) {
                 bundleAarTask.dependsOn(copyFlutterAssetsTask)
             }
@@ -1329,7 +1329,7 @@ class FlutterPlugin implements Plugin<Project> {
                 Task copyFlutterAssetsTask = addFlutterDeps(variant)
                 def variantOutput = variant.outputs.first()
                 def processResources = variantOutput.hasProperty(propProcessResourcesProvider) ?
-                        variantOutput.processResourcesProvider.get() : variantOutput.processResources
+                    variantOutput.processResourcesProvider.get() : variantOutput.processResources
                 processResources.dependsOn(copyFlutterAssetsTask)
 
                 // Copy the output APKs into a known location, so `flutter run` or `flutter build apk`
@@ -1344,12 +1344,12 @@ class FlutterPlugin implements Plugin<Project> {
                     assembleTask.doLast {
                         // `packageApplication` became `packageApplicationProvider` in AGP 3.3.0.
                         def outputDirectory = variant.hasProperty("packageApplicationProvider")
-                                ? variant.packageApplicationProvider.get().outputDirectory
-                                : variant.packageApplication.outputDirectory
+                            ? variant.packageApplicationProvider.get().outputDirectory
+                            : variant.packageApplication.outputDirectory
                         //  `outputDirectory` is a `DirectoryProperty` in AGP 4.1.
                         String outputDirectoryStr = outputDirectory.metaClass.respondsTo(outputDirectory, "get")
-                                ? outputDirectory.get()
-                                : outputDirectory
+                            ? outputDirectory.get()
+                            : outputDirectory
                         String filename = "app"
                         String abi = output.getFilter(OutputFile.ABI)
                         if (abi != null && !abi.isEmpty()) {
@@ -1417,8 +1417,8 @@ class FlutterPlugin implements Plugin<Project> {
                         copyFlutterAssetsTask = addFlutterDeps(libraryVariant)
                     }
                     Task mergeAssets = project
-                            .tasks
-                            .findByPath(":${hostAppProjectName}:merge${appProjectVariant.name.capitalize()}Assets")
+                        .tasks
+                        .findByPath(":${hostAppProjectName}:merge${appProjectVariant.name.capitalize()}Assets")
                     assert(mergeAssets)
                     mergeAssets.dependsOn(copyFlutterAssetsTask)
                 }
